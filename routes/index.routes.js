@@ -10,6 +10,7 @@ const spec_socialRouter = require("./spec_social.routes");
 const adminRouter = require("./admin.routes");
 const spec_working_dayRouter = require("./spec_working_day.routes");
 const specialistRouter = require("./specialist.routes");
+const otpRouter = require("./otp.routes")
 
 
 
@@ -22,6 +23,8 @@ router.use("/sp_social", spec_socialRouter);
 router.use("/admin", adminRouter);
 router.use("/sp_working_day", spec_working_dayRouter);
 router.use("/specialist", specialistRouter);
+router.use("/otp", otpRouter);
+
 
 
 
