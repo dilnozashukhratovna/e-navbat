@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const config = require("config");
 var password = config.get("crypt_password");
-var iv = Buffer.from(config.get("iv")); // Initialization vector.
+var iv = Buffer.from(config.get("iv")); 
 var ivstring = iv.toString("hex");
 
 function sha1(input) {

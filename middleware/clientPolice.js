@@ -9,7 +9,7 @@ module.exports = async function (req, res, next) {
         if (!authorization) {
             return res
                 .status(403)
-                .json({ message: "Client ro'yxatdan o'tmagan" });
+                .json({ message: "Client ro'yxatdan o'tmagan." });
         }
 
         console.log(authorization);

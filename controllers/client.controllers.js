@@ -90,7 +90,7 @@ const updateClient = async (req, res) => {
         console.log(client);
         res.status(200).json(client.rows);
     } catch (error) {
-        res.status(500).json(`Server is Error ${error}`);
+        res.status(500).json(`Server is error ${error}`);
     }
 };
 
