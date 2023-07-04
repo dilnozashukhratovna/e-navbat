@@ -1,5 +1,12 @@
 const pool = require("../config/db");
+const DeviceHelper = require("node-device-detector/helper");
+const DeviceDetector = require("node-device-detector");
 
+const detector = new DeviceDetector({
+    clientIndexes: true,
+    deviceIndexes: true,
+    deviceAliasCode: false,
+});
 
 const addClient = async (req, res) => {
     try {
@@ -29,7 +36,12 @@ const addClient = async (req, res) => {
 };
 
 const getClients = async (req, res) => {
-    try {
+    try { 
+        const userAgent = req.headers["user-agent"];
+        console.log(userAgent);
+        const result = detector.detect(userAgent);
+        console.log("result parse", result); 
+        console.log(DeviceHelper.isDesktop(result));
         const clients = await pool.query(`select * from client`);
         res.status(200).send(clients.rows);
     } catch (error) {
@@ -37,10 +49,12 @@ const getClients = async (req, res) => {
     }
 };
 
-const getClientById = async (req, res) => {
+const getClientById = async (req, res) => { 
     try {
-        const id = req.params.id
-        const client = await pool.query(`SELECT * FROM client WHERE id=$1`, [id]);
+        const id = req.params.id;
+        const client = await pool.query(`SELECT * FROM client WHERE id=$1`, [
+            id,
+        ]);
         res.status(200).send(client.rows);
     } catch (error) {
         res.status(500).json("Internal server error");
@@ -70,7 +84,7 @@ const updateClient = async (req, res) => {
                 client_phone_number,
                 client_info,
                 client_photo,
-                id
+                id,
             ]
         );
         console.log(client);
@@ -83,18 +97,14 @@ const updateClient = async (req, res) => {
 const deleteClient = async (req, res) => {
     try {
         const id = req.params.id;
-        const client = await pool.query(
-            `DELETE FROM client WHERE id = $1;`,
-            [id]
-        );
-        res.status(200).send({message: "Successfuly deleted!"});
+        const client = await pool.query(`DELETE FROM client WHERE id = $1;`, [
+            id,
+        ]);
+        res.status(200).send({ message: "Successfuly deleted!" });
     } catch (error) {
         res.status(500).json("Internal server error");
     }
 };
-
-
- 
 
 module.exports = {
     addClient,
